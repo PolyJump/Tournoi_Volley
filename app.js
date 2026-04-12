@@ -89,21 +89,18 @@ async function sendConfirmationEmail(team, players, payLabel) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        email:   players[0].email,
-        subject: `✅ Inscription confirmée — Polyjump 2026 — ${team}`,
+        subject: `[Polyjump] Nouvelle inscription — ${team}`,
         message:
-          `Bonjour ${players[0].name},\n\n` +
-          `Ton équipe "${team}" est bien inscrite au tournoi Polyjump !\n\n` +
-          `📅 Date : 3 Juin 2026 à 18h30\n` +
-          `📍 Lieu : SUAPS — Université de Bourgogne\n` +
-          `💶 Paiement : ${payLabel} · ${PRICE} €\n\n` +
-          `Joueurs :\n` +
-          players.map((p, i) => `  ${i + 1}. ${p.name} (${p.email})`).join('\n') +
-          `\n\nÀ bientôt sur le terrain ! 🏐\n— L'équipe Polyjump`,
+          `Nouvelle équipe inscrite !\n\n` +
+          `Équipe : ${team}\n` +
+          `Capitaine : ${players[0].name} (${players[0].email})\n` +
+          `Paiement : ${payLabel}\n\n` +
+          players.map((p, i) => `  ${i + 1}. ${p.name} (${p.email})`).join('\n'),
       }),
     });
   } catch (_) {}
 }
+
 
 /* ============================================================
    COMPTE À REBOURS
