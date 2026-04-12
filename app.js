@@ -5,8 +5,8 @@
 /* ---------- CONFIG (à personnaliser) ---------- */
 const TOURNAMENT_DATE    = new Date('2026-06-13T18:30:00');
 const PRICE              = 10;
-const PAYPAL_QR_CODE     = 'paypal-qr.png';
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/VOTRE_ID';
+const PAYPAL_QR_CODE     = 'paypal-qr (1).png';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgolypaz';
 const SUPABASE_URL       = 'https://qrixfbcqxcobwqfnnfrd.supabase.co';
 const SUPABASE_KEY       = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyaXhmYmNxeGNvYndxZm5uZnJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEzMjI3NTMsImV4cCI6MjA4Njg5ODc1M30.yl5w8ThDmX7zvRIWbgfh0cleoVIEO9TYxrAcBV04EK0';
 const MAX_TEAMS          = 16;
@@ -60,7 +60,7 @@ function isEmail(e) {
 }
 
 /**
- * Limite à 3 soumissions par tranche de 10 minutes (sessionStorage).
+ * Limite à 7 soumissions par tranche de 10 minutes (sessionStorage).
  * Retourne true si l'envoi est autorisé.
  */
 function checkRate() {
@@ -70,7 +70,7 @@ function checkRate() {
     attempts = JSON.parse(sessionStorage.getItem(k) || '[]')
       .filter(t => now - t < 600_000);
   } catch (_) {}
-  if (attempts.length >= 3) return false;
+  if (attempts.length >= 7) return false;
   attempts.push(now);
   try { sessionStorage.setItem(k, JSON.stringify(attempts)); } catch (_) {}
   return true;
@@ -312,7 +312,7 @@ function setPay(method) {
     paypalBox.style.display   = 'none';
     confirmWrap.style.display = 'none';
     statusEl.style.display    = 'block';
-    statusEl.textContent      = '💵 Paiement sur place le jour J.';
+    statusEl.textContent      = ' Paiement sur place le jour J.';
   }
 }
 
@@ -322,7 +322,7 @@ async function step3() {
 
   if (!payChoice) {
     statusEl.style.display = 'block';
-    statusEl.textContent   = '⚠️ Choisis un mode de paiement.';
+    statusEl.textContent   = ' Choisis un mode de paiement.';
     return;
   }
 
@@ -361,12 +361,12 @@ async function step3() {
 
   if (dup === 'team') {
     statusEl.style.display = 'block';
-    statusEl.textContent   = '⚠️ Ce nom est déjà pris !';
+    statusEl.textContent   = ' Ce nom est déjà pris !';
     return;
   }
   if (dup === 'email') {
     statusEl.style.display = 'block';
-    statusEl.textContent   = '⚠️ Un email est déjà inscrit !';
+    statusEl.textContent   = ' Un email est déjà inscrit !';
     return;
   }
 
@@ -382,7 +382,7 @@ function buildRecap() {
     email: clean(document.getElementById(id.replace('n', 'e')).value, 120),
     cap:   idx === 0,
   }));
-  const payLabel = payChoice === 'online' ? '💳 En ligne' : '💵 Sur place';
+  const payLabel = payChoice === 'online' ? ' En ligne' : ' Sur place';
 
   let html = `<h4>🏐 ${esc(team)}</h4>`;
   players.forEach((p, i) => {
@@ -395,7 +395,7 @@ function buildRecap() {
   });
   html += `
     <div class="prow" style="margin-top:1rem;color:var(--muted)">
-      <span>💰</span>
+      <span></span>
       <span>Paiement</span>
       <span>${esc(payLabel)} · ${PRICE} €</span>
     </div>`;
@@ -467,14 +467,14 @@ async function submit() {
       });
     } catch (_) {
       btn.disabled    = false;
-      btn.textContent = '🏐 Valider !';
+      btn.textContent = ' Valider !';
       alert('Erreur. Vérifie ta connexion.');
       return;
     }
   }
 
   // Affichage succès
-  let successHtml = `<h4>🏐 ${esc(team)}</h4>`;
+  let successHtml = `<h4> ${esc(team)}</h4>`;
   players.forEach((p, i) => {
     successHtml += `
       <div class="prow">
