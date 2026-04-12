@@ -100,9 +100,9 @@ body::before {
 /* ---------- Volleyball animation ---------- */
 .volleyball {
   position: fixed;
-  width: 150vmin;
-  height: 150vmin;
-  top: -160vmin;
+  width: 80vmin;
+  height: 80vmin;
+  top: -90vmin;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10000;
@@ -938,8 +938,8 @@ footer {
    ANIMATIONS
    ============================================================ */
 @keyframes dropBall {
-  0%   { top: -160vmin; transform: translateX(-50%) scale(1); }
-  100% { top: 50%;      transform: translateX(-50%) translateY(-50%) scale(6); }
+  0%   { top: -90vmin; transform: translateX(-50%) scale(1); }
+  100% { top: 50%;      transform: translateX(-50%) translateY(-50%) scale(3); }
 }
 @keyframes rotateBall {
   0%   { transform: rotate(0deg); }
