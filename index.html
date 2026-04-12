@@ -3,42 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Sécurité -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta http-equiv="X-Frame-Options" content="DENY" />
-
   <title>Polyjump – Tournoi de Volley Étudiant</title>
-
-  <!-- Polices -->
-  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Fredoka:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-
-  <!-- Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ============================================================
-     SPLASH SCREEN
-     ============================================================ -->
 <div id="splash">
   <h1 class="splash-title">POLYJUMP</h1>
   <p class="splash-subtitle">🏐 Tournoi de Volley Étudiant</p>
   <button class="splash-cta" id="splash-btn">C'EST PARTI ! 🚀</button>
 </div>
 
-<!-- Animation balle -->
 <div class="volleyball" id="volleyball">
   <img src="volleyball.png" alt="Balle de volley" />
 </div>
 
-<!-- ============================================================
-     SITE PRINCIPAL
-     ============================================================ -->
 <div id="main-site">
 
-  <!-- ---- NAVBAR ---- -->
   <nav class="navbar">
     <a class="navbar-logo" href="#">POLYJUMP</a>
     <div class="navbar-links">
@@ -49,7 +33,6 @@
     </div>
   </nav>
 
-  <!-- ---- HERO ---- -->
   <section class="hero">
     <div class="badge">🏐 Tournoi de Volley Étudiant</div>
     <h1 class="hero-title">POLYJUMP</h1>
@@ -58,12 +41,9 @@
       <div class="pill">📅 3 Juin 2026</div>
       <div class="pill">🕡 18h30</div>
       <div class="pill">📍 SUAPS</div>
-      <div class="pill">🍺 Buvette</div>
-      <a href="https://www.youtube.com/watch?v=RGHY4vCdowc" target="_blank" class="pill">💬 Discord</a>
     </div>
   </section>
 
-  <!-- ---- COMPTE À REBOURS ---- -->
   <div class="section-wrap">
     <div class="wrap reveal">
       <p class="lbl">⏳ Compte à rebours</p>
@@ -79,7 +59,6 @@
 
   <hr class="div" />
 
-  <!-- ---- INFOS PRATIQUES ---- -->
   <div class="section-wrap" id="infos">
     <div class="wrap reveal">
       <p class="lbl">📋 Infos pratiques</p>
@@ -90,7 +69,7 @@
           <span class="ico">🏟️</span>
           <h3>Lieu & Accès</h3>
           <p>Salle de Volley du <strong>SUAPS</strong><br />
-             Accès réservé aux étudiants inscrits.<br />
+             Accès réservé aux étudiants inscrits.
           </p>
         </div>
 
@@ -110,28 +89,8 @@
           <ul>
             <li>3 touches max par équipe</li>
             <li>Tenue sportive obligatoire</li>
-            <li>Fair-play exigé </li>
+            <li>Fair-play exigé</li>
           </ul>
-        </div>
-
-        <div class="info-card">
-          <span class="ico">🍺</span>
-          <h3>Buvette</h3>
-          <p>Buvette disponible en extérieur toute la soirée.
-             Boissons fraîches, snacks et bonne ambiance garantis !</p>
-        </div>
-
-        <div class="info-card">
-          <span class="ico">💬</span>
-          <h3>Discord</h3>
-          <p>Toutes les infos, le planning et les annonces seront sur notre serveur Discord !</p>
-          <a href="https://www.youtube.com/watch?v=RGHY4vCdowc"
-             target="_blank"
-             style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:1rem;background:var(--accent);color:#fff;padding:0.7rem 1.3rem;border-radius:50px;font-size:0.95rem;font-weight:700;text-decoration:none;transition:all 0.3s"
-             onmouseover="this.style.transform='translateY(-3px)'"
-             onmouseout="this.style.transform='translateY(0)'">
-            Rejoindre →
-          </a>
         </div>
 
       </div>
@@ -140,7 +99,6 @@
 
   <hr class="div" />
 
-  <!-- ---- PROGRAMME ---- -->
   <div class="section-wrap" id="programme">
     <div class="wrap reveal">
       <p class="lbl">🕐 Programme</p>
@@ -162,15 +120,6 @@
           <div class="tl-content">
             <strong>Lancement du tournoi <span class="tl-badge badge-sport">Sport</span></strong>
             <span>Début des matchs de poules. Matchs de 15 minutes chronométrés.</span>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-time">19h30</div>
-          <div class="tl-dot"></div>
-          <div class="tl-content">
-            <strong>Ouverture buvette <span class="tl-badge badge-social">Social</span></strong>
-            <span>Boissons et snacks disponibles en zone extérieure.</span>
           </div>
         </div>
 
@@ -207,7 +156,6 @@
 
   <hr class="div" />
 
-  <!-- ---- ÉQUIPES INSCRITES ---- -->
   <div class="section-wrap" id="equipes">
     <div class="wrap reveal">
       <div class="teams-head">
@@ -223,7 +171,6 @@
 
   <hr class="div" />
 
-  <!-- ---- PARTAGE ---- -->
   <div class="section-wrap">
     <div class="wrap reveal">
       <p class="lbl">📣 Partager</p>
@@ -245,7 +192,6 @@
 
   <hr class="div" />
 
-  <!-- ---- JAUGE DE PLACES ---- -->
   <div class="section-wrap">
     <div class="places-wrap reveal">
       <div class="places-box">
@@ -261,7 +207,6 @@
     </div>
   </div>
 
-  <!-- ---- FORMULAIRE D'INSCRIPTION ---- -->
   <div class="section-wrap" id="inscription">
     <div class="form-wrap">
       <p class="lbl" style="text-align:center">✍️ Inscription</p>
@@ -269,7 +214,6 @@
 
       <div class="form-card" id="fc">
 
-        <!-- Dots de navigation -->
         <div class="dots" id="dots">
           <div class="dot on" id="d1"></div>
           <div class="dot-line"></div>
@@ -278,11 +222,10 @@
           <div class="dot" id="d3"></div>
         </div>
 
-        <!-- ========== ÉTAPE 1 — Équipe ========== -->
+        <!-- ÉTAPE 1 -->
         <div class="step on" id="s1">
           <div class="sh">1 — Ton équipe</div>
 
-          <!-- Honeypot anti-spam -->
           <div style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
             <input type="text" id="hp" tabindex="-1" autocomplete="off" />
           </div>
@@ -296,7 +239,6 @@
             </div>
           </div>
 
-          <!-- Joueur 1 — Capitaine -->
           <div class="pblock">
             <div class="pt"><span class="pn">1</span> Capitaine</div>
             <div class="frow">
@@ -313,7 +255,6 @@
             </div>
           </div>
 
-          <!-- Joueur 2 -->
           <div class="pblock">
             <div class="pt"><span class="pn">2</span> Joueur 2</div>
             <div class="frow">
@@ -330,7 +271,6 @@
             </div>
           </div>
 
-          <!-- Joueur 3 -->
           <div class="pblock">
             <div class="pt"><span class="pn">3</span> Joueur 3</div>
             <div class="frow">
@@ -347,7 +287,6 @@
             </div>
           </div>
 
-          <!-- Joueur 4 -->
           <div class="pblock">
             <div class="pt"><span class="pn">4</span> Joueur 4</div>
             <div class="frow">
@@ -366,9 +305,8 @@
 
           <button class="btn btn-p" id="btn-step2">Continuer →</button>
         </div>
-        <!-- /ÉTAPE 1 -->
 
-        <!-- ========== ÉTAPE 2 — Paiement ========== -->
+        <!-- ÉTAPE 2 -->
         <div class="step" id="s2">
           <div class="sh">2 — Paiement</div>
 
@@ -376,16 +314,15 @@
             <div class="price" id="price-lbl">10 €</div>
             <div class="price-d">par équipe (4 joueurs)</div>
             <div class="pay-row">
-              <button class="pbtn prim" id="btn-pay-online"> Payer via PayPal</button>
-              <button class="pbtn sec"  id="btn-pay-onsite"> Sur place</button>
+              <button class="pbtn prim" id="btn-pay-online">Payer via PayPal</button>
+              <button class="pbtn sec"  id="btn-pay-onsite">Sur place</button>
             </div>
           </div>
 
-          <!-- Bloc PayPal QR -->
           <div class="paypal-qr-box" id="paypal-box">
-            <div class="paypal-qr-ttl"> Scanner pour payer</div>
+            <div class="paypal-qr-ttl">Scanner pour payer</div>
             <div class="paypal-qr-img">
-              <img id="qr-img" src="" alt="paypal-qr (1).png" />
+              <img id="qr-img" src="" alt="QR PayPal" />
             </div>
             <div class="paypal-ref-box">
               <p class="paypal-ref-txt">
@@ -397,7 +334,6 @@
             </div>
           </div>
 
-          <!-- Confirmation paiement -->
           <div class="pay-confirm-wrap" id="pay-confirm">
             <label style="display:flex;align-items:flex-start;gap:0.8rem;cursor:pointer;font-size:1rem;color:var(--text)">
               <input type="checkbox" id="pay-check"
@@ -413,9 +349,8 @@
             <button class="btn btn-p" style="flex:1" id="btn-s3">Confirmer →</button>
           </div>
         </div>
-        <!-- /ÉTAPE 2 -->
 
-        <!-- ========== ÉTAPE 3 — Confirmation ========== -->
+        <!-- ÉTAPE 3 -->
         <div class="step" id="s3">
           <div class="sh">3 — Confirmation</div>
           <div class="recap" id="recap-box"></div>
@@ -434,9 +369,8 @@
             <button class="btn btn-p" style="flex:1" id="btn-sub">🏐 Valider !</button>
           </div>
         </div>
-        <!-- /ÉTAPE 3 -->
 
-        <!-- ========== SUCCÈS ========== -->
+        <!-- SUCCÈS -->
         <div class="success" id="success">
           <span class="s-ico">🏆</span>
           <h2>Inscription validée !</h2>
@@ -451,13 +385,12 @@
           </p>
         </div>
 
-      </div><!-- /form-card -->
-    </div><!-- /form-wrap -->
+      </div>
+    </div>
   </div>
 
   <hr class="div" />
 
-  <!-- ---- GALERIE ---- -->
   <div class="section-wrap" id="galerie">
     <div class="wrap reveal">
       <p class="lbl">📸 Galerie</p>
@@ -470,7 +403,6 @@
 
   <hr class="div" />
 
-  <!-- ---- RÉSULTATS ---- -->
   <div class="section-wrap" id="resultats">
     <div class="wrap reveal">
       <p class="lbl">🏆 Résultats</p>
@@ -484,7 +416,6 @@
     </div>
   </div>
 
-  <!-- ---- FOOTER ---- -->
   <footer>
     <p style="font-size:1.2rem;margin-bottom:0.5rem">
       <strong style="color:var(--accent)">POLYJUMP</strong> 🏐 Tournoi de Volley Étudiant
@@ -500,27 +431,34 @@
     </p>
   </footer>
 
-  <!-- ============================================================
-       PAGES LÉGALES (modales)
-       ============================================================ -->
-
-  <!-- Mentions légales -->
+  <!-- MENTIONS LÉGALES -->
   <div class="legal-page" id="mentions">
     <div class="legal-content">
       <div class="legal-close" data-close="mentions">×</div>
       <h1 class="legal-h1">Mentions Légales</h1>
 
-      <h2 class="legal-h2">1. Éditeur du site</h2>
+      <h2 class="legal-h2">1. Éditeurs du site</h2>
       <div class="legal-box">
-        <div class="legal-box-title"></div>
         <p class="legal-p">
-          <span class="legal-strong">Nom &amp; Yasin / Nadir :</span> MIHCI RAHIOUI<br />
-          <span class="legal-strong">Adresse :</span> <br />
-          <span class="legal-strong">Email :</span> [Email]
+          <span class="legal-strong">Yasin MIHCI</span><br />
+          Étudiant à Polytech Dijon<br />
+          <span class="legal-strong">Email :</span> yasin.mihci@polytech-dijon.fr
+        </p>
+        <p class="legal-p" style="margin-top:1rem">
+          <span class="legal-strong">Nadir RAHIOUI</span><br />
+          Étudiant à Polytech Dijon<br />
+          <span class="legal-strong">Email :</span> nadir.rahioui@polytech-dijon.fr
         </p>
       </div>
 
-      <h2 class="legal-h2">2. Hébergeur</h2>
+      <h2 class="legal-h2">2. Établissement</h2>
+      <p class="legal-p">
+        <span class="legal-strong">Polytech Dijon</span><br />
+        École Nationale Supérieure Polytechnique de Dijon<br />
+        Site : <a href="https://polytech-dijon.u-bourgogne.fr" target="_blank" style="color:var(--accent)">polytech-dijon.u-bourgogne.fr</a>
+      </p>
+
+      <h2 class="legal-h2">3. Hébergeur</h2>
       <p class="legal-p">
         <span class="legal-strong">Hébergeur :</span> GitHub, Inc.<br />
         <span class="legal-strong">Site :</span>
@@ -529,29 +467,50 @@
     </div>
   </div>
 
-  <!-- Politique RGPD -->
+  <!-- RGPD -->
   <div class="legal-page" id="rgpd">
     <div class="legal-content">
       <div class="legal-close" data-close="rgpd">×</div>
       <h1 class="legal-h1">Politique RGPD</h1>
 
-      <h2 class="legal-h2">1. Responsable</h2>
+      <h2 class="legal-h2">1. Responsables du traitement</h2>
       <div class="legal-box">
-        <div class="legal-box-title">🔧 À compléter</div>
         <p class="legal-p">
-          <span class="legal-strong">Responsable :</span> [Ton nom]<br />
-          <span class="legal-strong">Email :</span> [Email]
+          <span class="legal-strong">Yasin MIHCI</span> — yasin.mihci@polytech-dijon.fr<br />
+          <span class="legal-strong">Nadir RAHIOUI</span> — nadir.rahioui@polytech-dijon.fr<br />
+          Étudiants à Polytech Dijon
         </p>
       </div>
 
       <h2 class="legal-h2">2. Données collectées</h2>
-      <p class="legal-p">Noms, emails, nom d'équipe.</p>
-
-      <h2 class="legal-h2">3. Vos droits</h2>
       <p class="legal-p">
-        Accès, rectification, suppression. Contact :
-        <span class="legal-strong">[Email]</span>
+        Dans le cadre de l'inscription au tournoi Polyjump, nous collectons les données suivantes :
       </p>
+      <ul class="legal-ul">
+        <li>Prénom et nom de chaque joueur</li>
+        <li>Adresse email de chaque joueur</li>
+        <li>Nom de l'équipe</li>
+        <li>Mode de paiement choisi</li>
+      </ul>
+
+      <h2 class="legal-h2">3. Finalité du traitement</h2>
+      <p class="legal-p">
+        Ces données sont collectées uniquement dans le but d'organiser le tournoi de volley étudiant Polyjump (juin 2026) et d'envoyer un email de confirmation d'inscription.
+      </p>
+
+      <h2 class="legal-h2">4. Durée de conservation</h2>
+      <p class="legal-p">
+        Les données sont conservées jusqu'à la fin du tournoi et supprimées dans les 30 jours suivant l'événement.
+      </p>
+
+      <h2 class="legal-h2">5. Vos droits</h2>
+      <p class="legal-p">
+        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits, contactez-nous :
+      </p>
+      <ul class="legal-ul">
+        <li>yasin.mihci@polytech-dijon.fr</li>
+        <li>nadir.rahioui@polytech-dijon.fr</li>
+      </ul>
     </div>
   </div>
 
@@ -559,22 +518,42 @@
   <div class="legal-page" id="cgu">
     <div class="legal-content">
       <div class="legal-close" data-close="cgu">×</div>
-      <h1 class="legal-h1">CGU</h1>
+      <h1 class="legal-h1">Conditions Générales d'Utilisation</h1>
 
       <h2 class="legal-h2">1. Inscription</h2>
-      <p class="legal-p">Réservé aux étudiants. Équipes de 4.</p>
+      <p class="legal-p">
+        L'inscription est réservée aux étudiants. Chaque équipe est composée de 4 joueurs. Une seule inscription par équipe est autorisée.
+      </p>
 
       <h2 class="legal-h2">2. Tarif</h2>
-      <p class="legal-p">10 € par équipe. PayPal ou sur place.</p>
+      <p class="legal-p">
+        Le tarif d'inscription est de <strong>10 € par équipe</strong>, payable via PayPal (en ligne) ou sur place le jour du tournoi.
+      </p>
 
       <h2 class="legal-h2">3. Modération</h2>
-      <p class="legal-p">Noms offensants = désinscription sans remboursement.</p>
+      <p class="legal-p">
+        Tout nom d'équipe offensant, discriminatoire ou inapproprié entraînera une désinscription immédiate sans remboursement.
+      </p>
+
+      <h2 class="legal-h2">4. Fair-play</h2>
+      <p class="legal-p">
+        Tout comportement contraire au fair-play pourra entraîner la disqualification de l'équipe sans remboursement.
+      </p>
+
+      <h2 class="legal-h2">5. Responsabilité</h2>
+      <p class="legal-p">
+        Les organisateurs (Yasin MIHCI et Nadir RAHIOUI, étudiants à Polytech Dijon) ne sauraient être tenus responsables des incidents survenus en dehors du cadre organisationnel du tournoi.
+      </p>
+
+      <h2 class="legal-h2">6. Contact</h2>
+      <p class="legal-p">
+        Pour toute question : yasin.mihci@polytech-dijon.fr ou nadir.rahioui@polytech-dijon.fr
+      </p>
     </div>
   </div>
 
-</div><!-- /main-site -->
+</div>
 
-<!-- Script principal -->
 <script src="app.js"></script>
 </body>
 </html>
