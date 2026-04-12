@@ -19,7 +19,6 @@ function startAnimation() {
   const splash   = document.getElementById('splash');
   const ball     = document.getElementById('volleyball');
   const mainSite = document.getElementById('main-site');
-
   ball.classList.add('dropping');
   setTimeout(() => splash.classList.add('hiding'), 1000);
   setTimeout(() => {
@@ -49,9 +48,6 @@ function isEmail(e) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
 
-/**
- * Limite à 10 soumissions par tranche de 10 minutes.
- */
 function checkRate() {
   const now = Date.now(), k = 'pj_r';
   let attempts = [];
@@ -85,7 +81,7 @@ async function sb(path, opts = {}) {
 }
 
 /* ============================================================
-   FORMSPREE — Email de confirmation au capitaine
+   FORMSPREE — Email de confirmation
    ============================================================ */
 async function sendConfirmationEmail(team, players, payLabel) {
   try {
@@ -99,16 +95,14 @@ async function sendConfirmationEmail(team, players, payLabel) {
           `Bonjour ${players[0].name},\n\n` +
           `Ton équipe "${team}" est bien inscrite au tournoi Polyjump !\n\n` +
           `📅 Date : 3 Juin 2026 à 18h30\n` +
-          `📍 Lieu : SUAPS — Polytech Dijon\n` +
+          `📍 Lieu : SUAPS — Université de Bourgogne\n` +
           `💶 Paiement : ${payLabel} · ${PRICE} €\n\n` +
           `Joueurs :\n` +
           players.map((p, i) => `  ${i + 1}. ${p.name} (${p.email})`).join('\n') +
           `\n\nÀ bientôt sur le terrain ! 🏐\n— L'équipe Polyjump`,
       }),
     });
-  } catch (_) {
-    // L'email de confirmation est non bloquant
-  }
+  } catch (_) {}
 }
 
 /* ============================================================
@@ -177,7 +171,6 @@ async function loadTeams() {
     const teams = await sb('inscriptions?select=team_name,created_at&order=created_at.asc');
     const n     = teams ? teams.length : 0;
     cnt.textContent = `${n} équipe${n > 1 ? 's' : ''}`;
-
     if (!n) {
       box.innerHTML = '<div class="empty-box">🏐 Sois la première équipe à t\'inscrire !</div>';
       return;
@@ -200,16 +193,13 @@ async function loadTeams() {
    ============================================================ */
 function initShare() {
   document.getElementById('sh-wa').href =
-    'https://wa.me/?text=' + encodeURIComponent(`🏐 Inscris-toi au tournoi Polyjump ! Juin 2026 — SUAPS Polytech Dijon\n👉 ${PAGE_URL}`);
-
+    'https://wa.me/?text=' + encodeURIComponent(`🏐 Inscris-toi au tournoi Polyjump ! Juin 2026 — SUAPS Université de Bourgogne\n👉 ${PAGE_URL}`);
   document.getElementById('sh-tw').href =
     'https://twitter.com/intent/tweet?text=' + encodeURIComponent(`Je participe au tournoi Polyjump ! 🏐 ${PAGE_URL}`);
-
   if (navigator.share) {
     document.getElementById('sh-native').style.display = 'inline-flex';
     document.getElementById('sh-native').addEventListener('click', nativeShare);
   }
-
   document.getElementById('btn-copy-link').addEventListener('click', copyLink);
 }
 
@@ -226,7 +216,7 @@ function nativeShare() {
 }
 
 /* ============================================================
-   FORMULAIRE — Stepper
+   FORMULAIRE
    ============================================================ */
 let payChoice = null;
 
@@ -267,10 +257,8 @@ function setErr(fieldId, errId, isInvalid) {
 
 function step2() {
   if (document.getElementById('hp').value) return;
-
   let ok = true;
   ok = setErr('tn', 'e-tn', !document.getElementById('tn').value.trim()) && ok;
-
   [
     ['p1n', 'e-p1n'], ['p1e', 'e-p1e'],
     ['p2n', 'e-p2n'], ['p2e', 'e-p2e'],
@@ -281,7 +269,6 @@ function step2() {
     if (fid.includes('e')) ok = setErr(fid, eid, !isEmail(val)) && ok;
     else                    ok = setErr(fid, eid, !val) && ok;
   });
-
   if (ok) gostep(2);
 }
 
@@ -310,13 +297,11 @@ function setPay(method) {
 
 async function step3() {
   const statusEl = document.getElementById('pstat');
-
   if (!payChoice) {
     statusEl.style.display = 'block';
     statusEl.textContent   = 'Choisis un mode de paiement.';
     return;
   }
-
   if (payChoice === 'online') {
     const confirmed = document.getElementById('pay-check').checked;
     if (!confirmed) {
@@ -387,7 +372,6 @@ function buildRecap() {
       <span>Paiement</span>
       <span>${esc(payLabel)} · ${PRICE} €</span>
     </div>`;
-
   document.getElementById('recap-box').innerHTML = html;
 }
 
@@ -398,7 +382,6 @@ async function submit() {
   }
   document.getElementById('e-rglt').classList.remove('on');
 
-  // Vérification capacité
   try {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/inscriptions?select=id`, {
       headers: {
@@ -421,7 +404,7 @@ async function submit() {
     return;
   }
 
-  const btn = document.getElementById('btn-sub');
+  const btn       = document.getElementById('btn-sub');
   btn.disabled    = true;
   btn.textContent = '⏳ Envoi...';
 
@@ -457,10 +440,8 @@ async function submit() {
     return;
   }
 
-  // Email de confirmation via Formspree
   await sendConfirmationEmail(team, players, payLabel);
 
-  // Affichage succès
   let successHtml = `<h4>🏐 ${esc(team)}</h4>`;
   players.forEach((p, i) => {
     successHtml += `
@@ -499,14 +480,12 @@ function initLegal() {
   document.querySelectorAll('.legal-close[data-close]').forEach(btn => {
     btn.addEventListener('click', () => closeLegal(btn.dataset.close));
   });
-
   if (window.location.hash) {
     const page = window.location.hash.substring(1);
     if (['mentions', 'rgpd', 'cgu'].includes(page)) {
       setTimeout(() => document.getElementById(page).classList.add('show'), 100);
     }
   }
-
   window.addEventListener('hashchange', () => {
     const page = window.location.hash.substring(1);
     if (['mentions', 'rgpd', 'cgu'].includes(page)) {
@@ -540,12 +519,10 @@ function initScrollReveal() {
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('splash-btn').addEventListener('click', startAnimation);
-
   initShare();
   initForm();
   initLegal();
   initScrollReveal();
-
   tick();
   setInterval(tick, 1000);
   loadPlaces();
