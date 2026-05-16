@@ -273,6 +273,7 @@ function setPay(method) {
   const qrImg       = document.getElementById('qr-img');
 
   if (method === 'online') {
+    document.getElementById('pay-confirm-onsite').style.display = 'none';
     const teamName = document.getElementById('tn').value.trim() || '[Nom équipe]';
     refEl.textContent = teamName;
     qrImg.src         = PAYPAL_QR_CODE;
@@ -282,6 +283,7 @@ function setPay(method) {
   } else {
     paypalBox.style.display   = 'none';
     confirmWrap.style.display = 'none';
+    document.getElementById('pay-confirm-onsite').style.display = 'block';
     statusEl.style.display    = 'block';
     statusEl.textContent      = 'Paiement sur place le jour J.';
   }
@@ -301,6 +303,14 @@ async function step3() {
       return;
     }
     document.getElementById('e-pay-check').classList.remove('on');
+  }
+  if (payChoice === 'onsite') {
+     const confirmed = document.getElementById('pay-check-onsite').checked;
+     if (!confirmed) {
+       document.getElementById('e-pay-check-onsite').classList.add('on');
+       return;
+     }
+     document.getElementById('e-pay-check-onsite').classList.remove('on');
   }
 
   const btn = document.getElementById('btn-s3');
