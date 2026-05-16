@@ -313,6 +313,15 @@
           </div>
 
           <div class="pay-confirm-wrap" id="pay-confirm">
+            <!-- Confirmation sur place -->
+          <div class="pay-confirm-wrap" id="pay-confirm-onsite">
+            <label style="display:flex;align-items:flex-start;gap:0.8rem;cursor:pointer;font-size:1rem;color:var(--text)">
+              <input type="checkbox" id="pay-check-onsite"
+                     style="width:auto;margin-top:0.2rem;flex-shrink:0;transform:scale(1.2)" />
+              <span>Je confirme payer sur place le jour J (à partir de 18h00, SUAPS).</span>
+            </label>
+            <div class="err" id="e-pay-check-onsite">Tu dois confirmer.</div>
+          </div>
             <label style="display:flex;align-items:flex-start;gap:0.8rem;cursor:pointer;font-size:1rem;color:var(--text)">
               <input type="checkbox" id="pay-check"
                      style="width:auto;margin-top:0.2rem;flex-shrink:0;transform:scale(1.2)" />
