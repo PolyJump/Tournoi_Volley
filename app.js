@@ -256,15 +256,10 @@ function step2() {
   if (document.getElementById('hp').value) return;
   let ok = true;
   ok = setErr('tn', 'e-tn', !document.getElementById('tn').value.trim()) && ok;
-  [
-    ['p1n', 'e-p1n'], ['p1e', 'e-p1e'],
-    ['p2n', 'e-p2n'], ['p2e', 'e-p2e'],
-    ['p3n', 'e-p3n'], ['p3e', 'e-p3e'],
-    ['p4n', 'e-p4n'], ['p4e', 'e-p4e'],
-  ].forEach(([fid, eid]) => {
-    const val = document.getElementById(fid).value.trim();
-    if (fid.includes('e')) ok = setErr(fid, eid, !isEmail(val)) && ok;
-    else                    ok = setErr(fid, eid, !val) && ok;
+  ok = setErr('p1n', 'e-p1n', !document.getElementById('p1n').value.trim()) && ok;
+  ok = setErr('p1e', 'e-p1e', !isEmail(document.getElementById('p1e').value.trim())) && ok;
+  ['p2n', 'p3n', 'p4n'].forEach(id => {
+    ok = setErr(id, `e-${id}`, !document.getElementById(id).value.trim()) && ok;
   });
   if (ok) gostep(2);
 }
@@ -312,20 +307,19 @@ async function step3() {
   btn.disabled    = true;
   btn.textContent = '⏳ Vérif...';
 
-  const team   = document.getElementById('tn').value.trim();
-  const emails = ['p1e', 'p2e', 'p3e', 'p4e'].map(id => document.getElementById(id).value.trim());
+const team         = document.getElementById('tn').value.trim();
+const captainEmail = document.getElementById('p1e').value.trim();
 
-  let dup = null;
-  try {
-    const nameCheck = await sb(`inscriptions?team_name=eq.${encodeURIComponent(team)}&select=team_name`);
-    if (nameCheck && nameCheck.length > 0) {
-      dup = 'team';
-    } else {
-      const emailFilter = emails.map(e => `captain_email.eq.${encodeURIComponent(e)}`).join(',');
-      const emailCheck  = await sb(`inscriptions?or=(${emailFilter})&select=captain_email`);
-      if (emailCheck && emailCheck.length > 0) dup = 'email';
-    }
-  } catch (_) {}
+let dup = null;
+try {
+  const nameCheck = await sb(`inscriptions?team_name=eq.${encodeURIComponent(team)}&select=team_name`);
+  if (nameCheck && nameCheck.length > 0) {
+    dup = 'team';
+  } else {
+    const emailCheck = await sb(`inscriptions?captain_email=eq.${encodeURIComponent(captainEmail)}&select=captain_email`);
+    if (emailCheck && emailCheck.length > 0) dup = 'email';
+  }
+} catch (_) {}
 
   btn.disabled    = false;
   btn.textContent = 'Confirmer →';
@@ -405,37 +399,34 @@ async function submit() {
   btn.disabled    = true;
   btn.textContent = '⏳ Envoi...';
 
-  const team    = clean(document.getElementById('tn').value);
-  const players = ['p1n', 'p2n', 'p3n', 'p4n'].map((id, idx) => ({
-    name:  clean(document.getElementById(id).value),
-    email: clean(document.getElementById(id.replace('n', 'e')).value, 120),
-    role:  idx === 0 ? 'Capitaine' : `Joueur ${idx + 1}`,
-  }));
-  const payLabel = payChoice === 'online' ? 'En ligne (PayPal)' : 'Sur place';
+  const team         = clean(document.getElementById('tn').value);
+const captainEmail = clean(document.getElementById('p1e').value, 120);
+const players = ['p1n','p2n','p3n','p4n'].map((id, idx) => ({
+  name: clean(document.getElementById(id).value),
+  role: idx === 0 ? 'Capitaine' : `Joueur ${idx + 1}`,
+}));
+const payLabel = payChoice === 'online' ? 'En ligne (PayPal)' : 'Sur place';
 
-  try {
-    await sb('inscriptions', {
-      method: 'POST',
-      prefer: 'return=minimal',
-      body: JSON.stringify({
-        team_name:      team,
-        captain_name:   players[0].name,
-        captain_email:  players[0].email,
-        player2_name:   players[1].name,
-        player2_email:  players[1].email,
-        player3_name:   players[2].name,
-        player3_email:  players[2].email,
-        player4_name:   players[3].name,
-        player4_email:  players[3].email,
-        payment_method: payChoice,
-      }),
-    });
-  } catch (_) {
-    btn.disabled    = false;
-    btn.textContent = '🏐 Valider !';
-    alert('Erreur. Vérifie ta connexion.');
-    return;
-  }
+try {
+  await sb('inscriptions', {
+    method: 'POST',
+    prefer: 'return=minimal',
+    body: JSON.stringify({
+      team_name:      team,
+      captain_name:   players[0].name,
+      captain_email:  captainEmail,
+      player2_name:   players[1].name,
+      player3_name:   players[2].name,
+      player4_name:   players[3].name,
+      payment_method: payChoice,
+    }),
+  });
+} catch (_) {
+  btn.disabled    = false;
+  btn.textContent = '🏐 Valider !';
+  alert('Erreur. Vérifie ta connexion.');
+  return;
+}
 
   await sendConfirmationEmail(team, players, payLabel);
 
@@ -445,7 +436,7 @@ async function submit() {
       <div class="prow">
         <span class="pn">${i + 1}</span>
         <span style="flex:1">${esc(p.name)}${i === 0 ? ' <span style="color:var(--accent);font-size:0.85rem">(Cap.)</span>' : ''}</span>
-        <span style="color:var(--muted);font-size:0.9rem">${esc(p.email)}</span>
+        ${i === 0 ? `<span style="color:var(--muted);font-size:0.9rem">${esc(captainEmail)}</span>` : ''}
       </div>`;
   });
   successHtml += `
