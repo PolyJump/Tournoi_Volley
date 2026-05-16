@@ -95,7 +95,7 @@ async function sendConfirmationEmail(team, players, payLabel) {
           `Équipe : ${team}\n` +
           `Capitaine : ${players[0].name} (${players[0].email})\n` +
           `Paiement : ${payLabel}\n\n` +
-          players.map((p, i) => `  ${i + 1}. ${p.name} (${p.email})`).join('\n'),
+          players.map((p, i) => `  ${i + 1}. ${p.name}${p.email ? ` (${p.email})` : ''}`).join('\n'),
       }),
     });
   } catch (_) {}
@@ -256,10 +256,17 @@ function step2() {
   if (document.getElementById('hp').value) return;
   let ok = true;
   ok = setErr('tn', 'e-tn', !document.getElementById('tn').value.trim()) && ok;
-  ok = setErr('p1n', 'e-p1n', !document.getElementById('p1n').value.trim()) && ok;
-  ok = setErr('p1e', 'e-p1e', !isEmail(document.getElementById('p1e').value.trim())) && ok;
-  ['p2n', 'p3n', 'p4n'].forEach(id => {
-    ok = setErr(id, `e-${id}`, !document.getElementById(id).value.trim()) && ok;
+  
+  // Validation ajustée : email uniquement pour le joueur 1
+  [
+    ['p1n', 'e-p1n'], ['p1e', 'e-p1e'],
+    ['p2n', 'e-p2n'],
+    ['p3n', 'e-p3n'],
+    ['p4n', 'e-p4n']
+  ].forEach(([fid, eid]) => {
+    const val = document.getElementById(fid).value.trim();
+    if (fid.includes('e')) ok = setErr(fid, eid, !isEmail(val)) && ok;
+    else                    ok = setErr(fid, eid, !val) && ok;
   });
   if (ok) gostep(2);
 }
@@ -273,7 +280,6 @@ function setPay(method) {
   const qrImg       = document.getElementById('qr-img');
 
   if (method === 'online') {
-    document.getElementById('pay-confirm-onsite').style.display = 'none';
     const teamName = document.getElementById('tn').value.trim() || '[Nom équipe]';
     refEl.textContent = teamName;
     qrImg.src         = PAYPAL_QR_CODE;
@@ -308,19 +314,21 @@ async function step3() {
   btn.disabled    = true;
   btn.textContent = '⏳ Vérif...';
 
-const team         = document.getElementById('tn').value.trim();
-const captainEmail = document.getElementById('p1e').value.trim();
+  const team   = document.getElementById('tn').value.trim();
+  // Vérification de doublon d'email uniquement pour le capitaine
+  const emails = ['p1e'].map(id => document.getElementById(id).value.trim());
 
-let dup = null;
-try {
-  const nameCheck = await sb(`inscriptions?team_name=eq.${encodeURIComponent(team)}&select=team_name`);
-  if (nameCheck && nameCheck.length > 0) {
-    dup = 'team';
-  } else {
-    const emailCheck = await sb(`inscriptions?captain_email=eq.${encodeURIComponent(captainEmail)}&select=captain_email`);
-    if (emailCheck && emailCheck.length > 0) dup = 'email';
-  }
-} catch (_) {}
+  let dup = null;
+  try {
+    const nameCheck = await sb(`inscriptions?team_name=eq.${encodeURIComponent(team)}&select=team_name`);
+    if (nameCheck && nameCheck.length > 0) {
+      dup = 'team';
+    } else {
+      const emailFilter = emails.map(e => `captain_email.eq.${encodeURIComponent(e)}`).join(',');
+      const emailCheck  = await sb(`inscriptions?or=(${emailFilter})&select=captain_email`);
+      if (emailCheck && emailCheck.length > 0) dup = 'email';
+    }
+  } catch (_) {}
 
   btn.disabled    = false;
   btn.textContent = 'Confirmer →';
@@ -332,7 +340,7 @@ try {
   }
   if (dup === 'email') {
     statusEl.style.display = 'block';
-    statusEl.textContent   = 'Un email est déjà inscrit !';
+    statusEl.textContent   = 'Cet email est déjà inscrit !';
     return;
   }
 
@@ -344,7 +352,8 @@ function buildRecap() {
   const team    = clean(document.getElementById('tn').value);
   const players = ['p1n', 'p2n', 'p3n', 'p4n'].map((id, idx) => ({
     name:  clean(document.getElementById(id).value),
-    email: clean(document.getElementById(id.replace('n', 'e')).value, 120),
+    // Email uniquement si c'est le capitaine (idx 0)
+    email: idx === 0 ? clean(document.getElementById('p1e').value, 120) : '',
     cap:   idx === 0,
   }));
   const payLabel = payChoice === 'online' ? 'En ligne' : 'Sur place';
@@ -355,7 +364,7 @@ function buildRecap() {
       <div class="prow">
         <span class="pn">${i + 1}</span>
         <span style="flex:1">${esc(p.name)}${p.cap ? ' <span style="color:var(--accent);font-size:0.85rem">(Cap.)</span>' : ''}</span>
-        <span style="color:var(--muted);font-size:0.9rem">${esc(p.email)}</span>
+        <span style="color:var(--muted);font-size:0.9rem">${p.email ? esc(p.email) : ''}</span>
       </div>`;
   });
   html += `
@@ -400,34 +409,36 @@ async function submit() {
   btn.disabled    = true;
   btn.textContent = '⏳ Envoi...';
 
-  const team         = clean(document.getElementById('tn').value);
-const captainEmail = clean(document.getElementById('p1e').value, 120);
-const players = ['p1n','p2n','p3n','p4n'].map((id, idx) => ({
-  name: clean(document.getElementById(id).value),
-  role: idx === 0 ? 'Capitaine' : `Joueur ${idx + 1}`,
-}));
-const payLabel = payChoice === 'online' ? 'En ligne (PayPal)' : 'Sur place';
+  const team    = clean(document.getElementById('tn').value);
+  const players = ['p1n', 'p2n', 'p3n', 'p4n'].map((id, idx) => ({
+    name:  clean(document.getElementById(id).value),
+    // Email uniquement pour le capitaine
+    email: idx === 0 ? clean(document.getElementById('p1e').value, 120) : '',
+    role:  idx === 0 ? 'Capitaine' : `Joueur ${idx + 1}`,
+  }));
+  const payLabel = payChoice === 'online' ? 'En ligne (PayPal)' : 'Sur place';
 
-try {
-  await sb('inscriptions', {
-    method: 'POST',
-    prefer: 'return=minimal',
-    body: JSON.stringify({
-      team_name:      team,
-      captain_name:   players[0].name,
-      captain_email:  captainEmail,
-      player2_name:   players[1].name,
-      player3_name:   players[2].name,
-      player4_name:   players[3].name,
-      payment_method: payChoice,
-    }),
-  });
-} catch (_) {
-  btn.disabled    = false;
-  btn.textContent = '🏐 Valider !';
-  alert('Erreur. Vérifie ta connexion.');
-  return;
-}
+  try {
+    // Payload allégé pour Supabase (sans les emails J2, J3, J4)
+    await sb('inscriptions', {
+      method: 'POST',
+      prefer: 'return=minimal',
+      body: JSON.stringify({
+        team_name:      team,
+        captain_name:   players[0].name,
+        captain_email:  players[0].email,
+        player2_name:   players[1].name,
+        player3_name:   players[2].name,
+        player4_name:   players[3].name,
+        payment_method: payChoice,
+      }),
+    });
+  } catch (_) {
+    btn.disabled    = false;
+    btn.textContent = '🏐 Valider !';
+    alert('Erreur. Vérifie ta connexion.');
+    return;
+  }
 
   await sendConfirmationEmail(team, players, payLabel);
 
@@ -437,7 +448,7 @@ try {
       <div class="prow">
         <span class="pn">${i + 1}</span>
         <span style="flex:1">${esc(p.name)}${i === 0 ? ' <span style="color:var(--accent);font-size:0.85rem">(Cap.)</span>' : ''}</span>
-        ${i === 0 ? `<span style="color:var(--muted);font-size:0.9rem">${esc(captainEmail)}</span>` : ''}
+        <span style="color:var(--muted);font-size:0.9rem">${p.email ? esc(p.email) : ''}</span>
       </div>`;
   });
   successHtml += `
