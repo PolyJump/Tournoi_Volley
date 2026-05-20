@@ -3,7 +3,7 @@
    ============================================================ */
 
 /* ---------- CONFIG ---------- */
-const TOURNAMENT_DATE    = new Date('2026-06-03T18:30:00');
+const TOURNAMENT_DATE    = new Date('2026-06-04T18:30:00');
 const PRICE              = 10;
 const PAYPAL_QR_CODE     = 'paypal-qr (1).png';
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgolypaz';
