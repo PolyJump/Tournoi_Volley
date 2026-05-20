@@ -455,7 +455,7 @@ async function submit() {
     <div class="prow" style="margin-top:1rem">
       <span>📅</span>
       <span>Tournoi</span>
-      <span style="color:var(--accent);font-weight:700">3 Juin 2026 · 18h30 · SUAPS</span>
+      <span style="color:var(--accent);font-weight:700">4 Juin 2026 · 18h30 · SUAPS</span>
     </div>`;
 
   document.getElementById('s-team').textContent = team;
